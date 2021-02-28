@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.android.navigation.InGame">
+
+    <data>
+
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.example.android.navigation.GameViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/questionImage"
+        android:layout_width="0dp"
+        android:layout_height="192dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/rnm02" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/questionRadioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionImage">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/questionImage">
+
+            <ImageView
+                android:id="@+id/correct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:visibility="@{viewModel.attempted &amp;&amp; viewModel.isCorrect ? View.VISIBLE : View.INVISIBLE}"
+                app:srcCompat="@drawable/right_24" />
+
+            <ImageView
+                android:id="@+id/wrong"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_gravity="top"
+                android:visibility="@{viewModel.attempted &amp;&amp; !viewModel.isCorrect ? View.VISIBLE : View.INVISIBLE}"
+                app:srcCompat="@drawable/wrong_24" />
+
+        </FrameLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="sans-serif"
+        android:text="@{context.getString(viewModel.question)}"
+        android:textColor="@color/tealDark"
+        android:textSize="@dimen/question_text_size"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionImage"
+        tools:text="Long clothes is the new trend?" />
+
+    <RadioGroup
+        android:id="@+id/questionRadioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="@dimen/question_horizontal_margin"
+        android:layout_marginBottom="16dp"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionText">
+
+        <RadioButton
+            android:id="@+id/trueRdBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{viewModel.checkTrue}"
+            android:onClick="@{() -> viewModel.onSelected(true)}"
+            android:enabled="@{!viewModel.attempted}"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:text="TRUE" />
+
+        <RadioButton
+            android:id="@+id/falseRd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{viewModel.checkFalse}"
+            android:onClick="@{() -> viewModel.onSelected(false)}"
+            android:enabled="@{!viewModel.attempted}"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+
+            android:text="FALSE"
+            android:textAlignment="center" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="34dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="12dp"
+        android:layout_weight="1"
+        android:background="@drawable/ic_baseline_navigate_next_24"
+        android:textSize="8sp"
+        android:onClick="@{() -> viewModel.next()}"
+        app:layout_constraintBaseline_toBaselineOf="@+id/questionRadioGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.758"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.271" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="36dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/ic_baseline_navigate_before_24"
+        android:onClick="@{() -> viewModel.prev()}"
+
+        app:layout_constraintBaseline_toBaselineOf="@+id/questionRadioGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.149"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.961" />
+
+    <TextView
+        android:id="@+id/scoreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{viewModel.score}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionRadioGroup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
