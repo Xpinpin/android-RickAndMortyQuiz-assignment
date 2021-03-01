@@ -37,7 +37,7 @@
             android:id="@+id/gameOverText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Score: @{}"
+            android:text="Your Score: xx/xx"
             android:textColor="@color/colorAccent"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"

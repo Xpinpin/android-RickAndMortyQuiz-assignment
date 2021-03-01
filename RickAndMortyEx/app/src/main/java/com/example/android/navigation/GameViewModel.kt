@@ -149,6 +149,8 @@ class GameViewModel : ViewModel() {
 
     init{
         newGame()
+
+
     }
 
 
